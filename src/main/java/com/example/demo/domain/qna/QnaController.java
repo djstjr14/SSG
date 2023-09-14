@@ -1,4 +1,4 @@
-package com.side.toon.domain.qna;
+package com.example.demo.domain.qna;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

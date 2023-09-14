@@ -1,6 +1,5 @@
-package com.side.toon.domain.main;
+package com.example.demo.domain.main;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

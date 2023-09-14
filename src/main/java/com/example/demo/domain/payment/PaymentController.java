@@ -1,4 +1,4 @@
-package com.side.toon.domain.payment;
+package com.example.demo.domain.payment;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

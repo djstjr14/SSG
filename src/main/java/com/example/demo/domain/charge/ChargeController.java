@@ -1,4 +1,4 @@
-package com.side.toon.domain.charge;
+package com.example.demo.domain.charge;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

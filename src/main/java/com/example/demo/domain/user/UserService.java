@@ -1,4 +1,4 @@
-package com.side.toon.domain.user;
+package com.example.demo.domain.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

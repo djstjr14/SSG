@@ -1,4 +1,4 @@
-package com.side.toon.domain.notice;
+package com.example.demo.domain.notice;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
