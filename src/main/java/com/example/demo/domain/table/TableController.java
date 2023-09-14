@@ -1,4 +1,4 @@
-package com.example.demo.domain.layout;
+package com.example.demo.domain.table;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -9,22 +9,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("")
-public class LayoutController {
+public class TableController {
 
-    //메인 페이지
-    @GetMapping("/layout-sidenav-light.html")
+    //테이블 페이지
+    @GetMapping("/tables.html")
     public ModelAndView layoutSidenav() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("layouts/layout-sidenav-light");
+        modelAndView.setViewName("page/charge/tables.html");
         return modelAndView;
     }
 
-    //로그인
-    @GetMapping("/layout-static.html")
-    public ModelAndView layout() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("layouts/layout-static");
-        return modelAndView;
-    }
 
 }

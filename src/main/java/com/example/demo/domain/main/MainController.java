@@ -20,7 +20,7 @@ public class MainController {
     }
 
     //로그인
-    @GetMapping("/login")
+    @GetMapping("/login.html")
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("page/main/login");
