@@ -15,7 +15,7 @@ public class TableController {
     @GetMapping("/tables.html")
     public ModelAndView layoutSidenav() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("page/charge/tables.html");
+        modelAndView.setViewName("page/charge/tables");
         return modelAndView;
     }
 

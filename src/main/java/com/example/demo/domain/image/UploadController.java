@@ -1,4 +1,4 @@
-package com.example.demo.domain.charge;
+package com.example.demo.domain.image;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -8,16 +8,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/charge")
-public class ChargeController {
+@RequestMapping("")
+public class UploadController {
 
-    private ChargeService chargeService;
-
-    //충전 내역
-    @GetMapping("")
-    public ModelAndView chargeList() {
+    @GetMapping("/upload.html")
+    public ModelAndView uploadList() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("page/charge/tables");
+        modelAndView.setViewName("image/upload");
 
         return modelAndView;
     }
