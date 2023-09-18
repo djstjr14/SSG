@@ -17,136 +17,75 @@
     </div>
     <div id="layoutSidenav_content">
         <main>
-            <div>teachable Machine Image Model</div>
+            <div>Teachable Machine Image Model</div>
             <button type="button" onclick="init()">Start</button>
             <button type="button" onclick="predict()">검사</button>
-            <div id="drop-area">
-                <form class="my-form">
-                    <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-                    <input type="file" id="fileElem"  onchange="handleFiles(this.files)">
-                    <label class="button" for="fileElem">Select some files</label>
-                </form>
-                <progress id="progress-bar" max=100 value=0></progress>
-                <div id="gallery" class="file-upload-content" />
+
+            <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+            <div class="file-upload">
+                <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+
+                <div class="image-upload-wrap">
+                    <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+                    <div class="drag-text">
+                        <h3>Drag and drop a file or select add Image</h3>
+                    </div>
+                </div>
+                <div class="file-upload-content">
+                    <img class="file-upload-image" id="helmet-image" src="#" alt="your image" />
+                    <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                    </div>
+                    <div id="label-container"></div>
+                </div>
             </div>
+
         </main>
         <th:block th:replace="fragments/footer :: footerFragment"></th:block>
 
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 <script>
-    // ************************ Drag and drop ***************** //
-    let dropArea = document.getElementById("drop-area")
+    function readURL(input) {
+        if (input.files && input.files[0]) {
 
-// Prevent default drag behaviors
-    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, preventDefaults, false)
-        document.body.addEventListener(eventName, preventDefaults, false)
-    })
+            var reader = new FileReader();
 
-// Highlight drop area when item is dragged over it
-    ;['dragenter', 'dragover'].forEach(eventName => {
-        dropArea.addEventListener(eventName, highlight, false)
-    })
+            reader.onload = function(e) {
+                $('.image-upload-wrap').hide();
+                $('.file-upload-image').attr('src', e.target.result);
+                $('.file-upload-content').show();
+                $('.image-title').html(input.files[0].name);
+            };
 
-    ;['dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, unhighlight, false)
-    })
+            reader.readAsDataURL(input.files[0]);
 
-    // Handle dropped files
-    dropArea.addEventListener('drop', handleDrop, false)
-
-    function preventDefaults (e) {
-        e.preventDefault()
-        e.stopPropagation()
-    }
-
-    function highlight(e) {
-        dropArea.classList.add('highlight')
-    }
-
-    function unhighlight(e) {
-        dropArea.classList.remove('active')
-    }
-
-    function handleDrop(e) {
-        var dt = e.dataTransfer
-        var files = dt.files
-
-        handleFiles(files)
-    }
-
-    let uploadProgress = []
-    let progressBar = document.getElementById('progress-bar')
-
-    function initializeProgress(numFiles) {
-        progressBar.value = 0
-        uploadProgress = []
-
-        for(let i = numFiles; i > 0; i--) {
-            uploadProgress.push(0)
+        } else {
+            removeUpload();
         }
     }
 
-    function updateProgress(fileNumber, percent) {
-        uploadProgress[fileNumber] = percent
-        let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
-        progressBar.value = total
+    function removeUpload() {
+        $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+        $('.file-upload-content').hide();
+        $('.image-upload-wrap').show();
     }
-
-    function handleFiles(files) {
-        files = [...files]
-        initializeProgress(files.length)
-        files.forEach(uploadFile)
-        files.forEach(previewFile)
-    }
-
-    function previewFile(file) {
-        let reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onloadend = function() {
-            let img = document.createElement('img')
-            img.src = reader.result
-            img.setAttribute('class', "file-upload-image")
-            img.setAttribute('id', "helmet-image")
-            document.getElementById('gallery').appendChild(img)
-        }
-    }
-
-    function uploadFile(file, i) {
-        var url = 'https://api.cloudinary.com/v1_1/joezimim007/image/upload'
-        var xhr = new XMLHttpRequest()
-        var formData = new FormData()
-        xhr.open('POST', url, true)
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-
-        // Update progress (can be used to show progress indicator)
-        xhr.upload.addEventListener("progress", function(e) {
-            updateProgress(i, (e.loaded * 100.0 / e.total) || 100)
-        })
-
-        xhr.addEventListener('readystatechange', function(e) {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                updateProgress(i, 100) // <- Add this
-            }
-            else if (xhr.readyState == 4 && xhr.status != 200) {
-                // Error. Inform the user
-            }
-        })
-
-        formData.append('upload_preset', 'ujpu6gyk')
-        formData.append('file', file)
-        xhr.send(formData)
-    }
+    $('.image-upload-wrap').bind('dragover', function () {
+        $('.image-upload-wrap').addClass('image-dropping');
+    });
+    $('.image-upload-wrap').bind('dragleave', function () {
+        $('.image-upload-wrap').removeClass('image-dropping');
+    });
 </script>
-    <div>Teachable Machine Image Model</div>
-    <button type="button" onclick="init()">Start</button>
-    <div id="webcam-container"></div>
-    <div id="label-container"></div>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
+
     <script type="text/javascript">
         // More API functions here:
         // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
@@ -167,9 +106,6 @@
             // Note: the pose library adds "tmImage" object to your window (window.tmImage)
             model = await tmImage.load(modelURL, metadataURL);
             maxPredictions = model.getTotalClasses();
-
-            // append elements to the DOM
-            document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
             for (let i = 0; i < maxPredictions; i++) { // and class labels
                 labelContainer.appendChild(document.createElement("div"));
@@ -181,22 +117,30 @@
         async function predict() {
             // predict can take in an image, video or canvas html element
             var image = document.getElementById("helmet-image")
-            const prediction = await model.predict(image);
+            const prediction = await model.predict(image, false);
             for (let i = 0; i < maxPredictions; i++) {
                 const classPrediction =
                     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
                 labelContainer.childNodes[i].innerHTML = classPrediction;
+                if(i == 0){
+                    labelContainer.childNodes[i].classList.add("blue-bar");
+                }
+                else if(i == 1){
+                    labelContainer.childNodes[i].classList.add("red-bar");
+                }
+
             }
         }
     </script>
 <!--
-Copyright (c) 2023 by shubham chaudhari (https://codepen.io/shubhamc_007/pen/zNJWPM)
+Copyright (c) 2023 by Aaron Vanston (https://codepen.io/aaronvanston/pen/yNYOXR)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 
 -->
 </body>
