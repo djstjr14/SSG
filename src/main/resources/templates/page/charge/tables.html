@@ -532,5 +532,41 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
+        <script>
+
+            $( document ).ready(function() {
+                console.log( "ready!" );
+                getData();
+            });
+
+            function getData(){
+                $.ajax({
+                    url: "http://221.161.215.143:8080/api/safecount/",
+                    method: "GET",
+                    contentType: "application/json",
+                    dataType: "jsonp",
+                    data: {},
+                    beforeSend: function (xhr){
+                        console.log(xhr);
+                        console.log("before send");
+                    },
+                    success: function (xhr){
+                        // for문으로 표 그리기
+
+
+                        console.log(xhr);
+                        console.log("success");
+                    },
+                    error: function(xhr){
+                        console.log(xhr);
+                        console.log("error");
+                    },
+                    complete: function(xhr){
+                        console.log(xhr);
+                        console.log("complete");
+                    }
+                })
+            }
+        </script>
     </body>
 </html>

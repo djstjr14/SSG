@@ -12,15 +12,15 @@
 </head>
 <body class="sb-nav-fixed">
     <th:block th:replace="fragments/header :: headerFragment"></th:block>
-<div id="layoutSidenav">
+<div id="layoutSidenav" class="w-90">
     <div id="layoutSidenav_nav">
         <th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
     </div>
-    <div id="layoutSidenav_content" class="d-flex align-items-center h-100" >
+    <div id="layoutSidenav_content" class="d-flex justify-content-center w-80 h-100" >
 
 
-            <div class="row align-self-center">
-                <div class="col-6 align-self-center">
+            <div class="row align-self-center d-flex align-items-stretch">
+                <div class="col-6 align-self-center p-1 me-auto align-self-stretch">
 
                     <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
                     <div class="file-upload">
@@ -29,7 +29,7 @@
                                 <button class="file-upload-btn mb-2"  type="button" onclick="$('.file-upload-input').trigger( 'click' )">사진 선택하기</button>
                             </div>
                             <div class="col-6">
-                                <button class="file-upload-btn "  style="background: #0a58ca; border-bottom: 4px solid #15824B;" type="button" onclick="predict()">점검 실행하기</button>
+                                <button class="check-btn btn btn-primary" type="button" onclick="predict()">점검 실행하기</button>
                             </div>
                         </div>
 
@@ -50,7 +50,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 align-self-center">
+
+                <div class="col-auto align-self-center p-1 align-self-stretch">
                     <div class="list">
                         <h2>안전점검 체크리스트</h2>
                         <form action="">
@@ -61,7 +62,7 @@
                             </label>
 
                             <label >
-                                <input type="checkbox" name="" disabled>
+                                <input id="check_box2" type="checkbox" name="" disabled>
                                 <i></i>
                                 <span>라바콘 설치</span>
                             </label>
@@ -69,7 +70,7 @@
                             <label >
                                 <input type="checkbox" name="" disabled>
                                 <i></i>
-                                <span>Duis aute iurire diolor</span>
+                                <span>형광조끼 착용</span>
                             </label>
 
                         </form>
@@ -125,7 +126,6 @@
     <script type="text/javascript">
 
         $( document ).ready(function() {
-            console.log( "ready!" );
             init();
         });
 
@@ -134,22 +134,32 @@
 
         // the link to your model provided by Teachable Machine export panel
         const URL = "https://teachablemachine.withgoogle.com/models/WJvcySz9H/";
+        const URL2 = "https://teachablemachine.withgoogle.com/models/_VbqjKflx/";
 
-        let model, webcam, labelContainer, maxPredictions;
+        let model, labelContainer, maxPredictions;
+        let model2, maxPredictions2;
 
         // Load the image model and setup the webcam
         async function init() {
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
 
+            const modelURL2 = URL2 + "model.json";
+            const metadataURL2 = URL2 + "metadata.json";
             // load the model and metadata
             // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
             // or files from your local hard drive
             // Note: the pose library adds "tmImage" object to your window (window.tmImage)
             model = await tmImage.load(modelURL, metadataURL);
             maxPredictions = model.getTotalClasses();
+
+
+            model2 = await tmImage.load(modelURL2, metadataURL2);
+            maxPredictions2 = model2.getTotalClasses();
+
             labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // and class labels
+
+            for (let i = 0; i < maxPredictions + maxPredictions2; i++) { // and class labels
                 labelContainer.appendChild(document.createElement("div"));
             }
         }
@@ -161,26 +171,36 @@
             var image = document.getElementById("helmet-image")
 
             const prediction = await model.predict(image, false);
+            const prediction2 = await model2.predict(image, false);
+
             for (let i = 0; i < maxPredictions; i++) {
-                console.log(prediction[i].probability.toFixed(2))
                 const classPrediction =
                     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+                const classPrediction2 =
+                    prediction2[i].className + ": " + prediction2[i].probability.toFixed(2);
                 labelContainer.childNodes[i].innerHTML = classPrediction;
+                labelContainer.childNodes[i+2].innerHTML = classPrediction2;
                 if(i == 0){
                     labelContainer.childNodes[i].classList.add("blue-bar");
+                    labelContainer.childNodes[i+2].classList.add("blue-bar");
                 }
                 else if(i == 1){
-                    //document.getElementById("helmet-image").checked = true;
-                    //qwe.diasbled = true;
                     labelContainer.childNodes[i].classList.add("red-bar");
+                    labelContainer.childNodes[i+2].classList.add("red-bar");
                 }
-
             }
+
             if(prediction[0].probability.toFixed(2) > prediction[1].probability.toFixed(2)){
                 $('#check_box1').prop("checked", true);
             }
             else if(prediction[1].probability.toFixed(2) > prediction[0].probability.toFixed(2)){
                 $('#check_box1').prop("checked", false);
+            }
+            else if(prediction2[0].probability.toFixed(2) > prediction2[1].probability.toFixed(2)){
+                $('#check_box2').prop("checked", true);
+            }
+            else if(prediction2[1].probability.toFixed(2) > prediction2[0].probability.toFixed(2)){
+                $('#check_box2').prop("checked", false);
             }
 
         }
