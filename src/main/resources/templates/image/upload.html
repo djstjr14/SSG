@@ -7,7 +7,6 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <link href="css/styles.css" rel="stylesheet" />
-    <link id="custom-styles" rel="stylesheet" href="assets/css/style.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
@@ -62,7 +61,7 @@
                             </label>
 
                             <label >
-                                <input id="check_box2" type="checkbox" name="" disabled>
+                                <input id="check_box2" type="checkbox" disabled>
                                 <i></i>
                                 <span>라바콘 설치</span>
                             </label>
@@ -157,11 +156,28 @@
             model2 = await tmImage.load(modelURL2, metadataURL2);
             maxPredictions2 = model2.getTotalClasses();
 
+
             labelContainer = document.getElementById("label-container");
 
+            var row1 = document.createElement("div");
+            var row2 = document.createElement("div");
+            row1.classList.add("row");
+            row2.classList.add("row");
             for (let i = 0; i < maxPredictions + maxPredictions2; i++) { // and class labels
-                labelContainer.appendChild(document.createElement("div"));
+                var col = document.createElement("div");
+                col.classList.add("col-6");
+                col.appendChild(document.createElement("div"));
+                if(i < 2){
+                    row1.appendChild(col);
+                }
+                else if(i < 4){
+                    row2.appendChild(col);
+                }
             }
+            labelContainer.appendChild(row1);
+            labelContainer.appendChild(row2);
+            console.log(row1);
+            console.log(labelContainer.childNodes[0].childNodes[0]);
         }
 
 
@@ -178,15 +194,15 @@
                     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
                 const classPrediction2 =
                     prediction2[i].className + ": " + prediction2[i].probability.toFixed(2);
-                labelContainer.childNodes[i].innerHTML = classPrediction;
-                labelContainer.childNodes[i+2].innerHTML = classPrediction2;
+                labelContainer.childNodes[0].childNodes[i].childNodes[0].innerHTML = classPrediction;
+                labelContainer.childNodes[1].childNodes[i].childNodes[0].innerHTML = classPrediction2;
                 if(i == 0){
-                    labelContainer.childNodes[i].classList.add("blue-bar");
-                    labelContainer.childNodes[i+2].classList.add("blue-bar");
+                    labelContainer.childNodes[0].childNodes[i].childNodes[0].classList.add("blue-bar");
+                    labelContainer.childNodes[1].childNodes[i].childNodes[0].classList.add("blue-bar");
                 }
                 else if(i == 1){
-                    labelContainer.childNodes[i].classList.add("red-bar");
-                    labelContainer.childNodes[i+2].classList.add("red-bar");
+                    labelContainer.childNodes[0].childNodes[i].childNodes[0].classList.add("red-bar");
+                    labelContainer.childNodes[1].childNodes[i].childNodes[0].classList.add("red-bar");
                 }
             }
 
@@ -196,7 +212,7 @@
             else if(prediction[1].probability.toFixed(2) > prediction[0].probability.toFixed(2)){
                 $('#check_box1').prop("checked", false);
             }
-            else if(prediction2[0].probability.toFixed(2) > prediction2[1].probability.toFixed(2)){
+            if(prediction2[0].probability.toFixed(2) > prediction2[1].probability.toFixed(2)){
                 $('#check_box2').prop("checked", true);
             }
             else if(prediction2[1].probability.toFixed(2) > prediction2[0].probability.toFixed(2)){

@@ -673,6 +673,7 @@ progress {
   margin-top: calc(-1 * var(--bs-gutter-y));
   margin-right: calc(-0.5 * var(--bs-gutter-x));
   margin-left: calc(-0.5 * var(--bs-gutter-x));
+  margin-bottom: 10px;
 }
 .row > * {
   flex-shrink: 0;
@@ -11794,6 +11795,7 @@ body {
 .image-title-wrap {
   padding: 0 15px 15px 15px;
   color: #222;
+  margin-bottom: 20px;
 }
 
 .drag-text {
@@ -11860,12 +11862,10 @@ body {
   /* left: 0; */
   height: 2rem;
   border-radius: 10px;
-  width: 100%;
-  background-color: rgba(27, 175, 234, 0.2);
+  background-color: rgba(27, 37, 235, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
 }
 
 .animal-label {
