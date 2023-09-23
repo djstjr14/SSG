@@ -67,7 +67,7 @@
                             </label>
 
                             <label >
-                                <input type="checkbox" name="" disabled>
+                                <input id="check_box3" type="checkbox" disabled>
                                 <i></i>
                                 <span>형광조끼 착용</span>
                             </label>
@@ -132,11 +132,13 @@
         // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
         // the link to your model provided by Teachable Machine export panel
-        const URL = "https://teachablemachine.withgoogle.com/models/WJvcySz9H/";
-        const URL2 = "https://teachablemachine.withgoogle.com/models/_VbqjKflx/";
+        const URL = "https://teachablemachine.withgoogle.com/models/1xZCgNrsD/";
+        const URL2 = "https://teachablemachine.withgoogle.com/models/KoZRah5JY/";
+        const URL3 ="https://teachablemachine.withgoogle.com/models/iAkdgCIiL/";
 
         let model, labelContainer, maxPredictions;
         let model2, maxPredictions2;
+        let model3, maxPredictions3;
 
         // Load the image model and setup the webcam
         async function init() {
@@ -145,6 +147,9 @@
 
             const modelURL2 = URL2 + "model.json";
             const metadataURL2 = URL2 + "metadata.json";
+
+            const modelURL3 = URL3 + "model.json";
+            const metadataURL3 = URL3 + "metadata.json";
             // load the model and metadata
             // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
             // or files from your local hard drive
@@ -156,14 +161,18 @@
             model2 = await tmImage.load(modelURL2, metadataURL2);
             maxPredictions2 = model2.getTotalClasses();
 
+            model3 = await tmImage.load(modelURL3, metadataURL3);
+            maxPredictions3 = model3.getTotalClasses();
 
             labelContainer = document.getElementById("label-container");
 
             var row1 = document.createElement("div");
             var row2 = document.createElement("div");
+            var row3 = document.createElement("div");
             row1.classList.add("row");
             row2.classList.add("row");
-            for (let i = 0; i < maxPredictions + maxPredictions2; i++) { // and class labels
+            row3.classList.add("row");
+            for (let i = 0; i < maxPredictions + maxPredictions2 + maxPredictions3; i++) { // and class labels
                 var col = document.createElement("div");
                 col.classList.add("col-6");
                 col.appendChild(document.createElement("div"));
@@ -173,9 +182,13 @@
                 else if(i < 4){
                     row2.appendChild(col);
                 }
+                else if(i < 6){
+                    row3.appendChild(col);
+                }
             }
             labelContainer.appendChild(row1);
             labelContainer.appendChild(row2);
+            labelContainer.appendChild(row3);
             console.log(row1);
             console.log(labelContainer.childNodes[0].childNodes[0]);
         }
@@ -188,21 +201,27 @@
 
             const prediction = await model.predict(image, false);
             const prediction2 = await model2.predict(image, false);
+            const prediction3 = await model3.predict(image, false);
 
             for (let i = 0; i < maxPredictions; i++) {
                 const classPrediction =
                     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
                 const classPrediction2 =
                     prediction2[i].className + ": " + prediction2[i].probability.toFixed(2);
+                const classPrediction3 =
+                    prediction3[i].className + ": " + prediction3[i].probability.toFixed(2);
                 labelContainer.childNodes[0].childNodes[i].childNodes[0].innerHTML = classPrediction;
                 labelContainer.childNodes[1].childNodes[i].childNodes[0].innerHTML = classPrediction2;
+                labelContainer.childNodes[2].childNodes[i].childNodes[0].innerHTML = classPrediction3;
                 if(i == 0){
                     labelContainer.childNodes[0].childNodes[i].childNodes[0].classList.add("blue-bar");
                     labelContainer.childNodes[1].childNodes[i].childNodes[0].classList.add("blue-bar");
+                    labelContainer.childNodes[2].childNodes[i].childNodes[0].classList.add("blue-bar");
                 }
                 else if(i == 1){
                     labelContainer.childNodes[0].childNodes[i].childNodes[0].classList.add("red-bar");
                     labelContainer.childNodes[1].childNodes[i].childNodes[0].classList.add("red-bar");
+                    labelContainer.childNodes[2].childNodes[i].childNodes[0].classList.add("red-bar");
                 }
             }
 
@@ -217,6 +236,12 @@
             }
             else if(prediction2[1].probability.toFixed(2) > prediction2[0].probability.toFixed(2)){
                 $('#check_box2').prop("checked", false);
+            }
+            if(prediction3[0].probability.toFixed(2) > prediction3[1].probability.toFixed(2)){
+                $('#check_box3').prop("checked", true);
+            }
+            else if(prediction3[1].probability.toFixed(2) > prediction3[0].probability.toFixed(2)){
+                $('#check_box3').prop("checked", false);
             }
 
         }
