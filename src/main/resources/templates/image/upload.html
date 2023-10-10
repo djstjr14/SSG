@@ -83,30 +83,30 @@
                             <form action="form_membership02.jsp" name="person_info" method="get">
 
                                 <div class="row">
-                                    <div class="col-6">
-                                        작업시간 :
-                                        <div class="col-6"><input type="text" id="time" name="time" required> <br><br> </div>
+                                    <div class="col-6 row">
+                                        <div class="col-4">작업시간:</div>
+                                        <div class="col-8"><input type="text" id="time" name="time" required> <br><br> </div>
                                     </div>
-                                    <div class="col-6">
-                                        소속:
-                                        <div class="col-6"><input type="text" id="department" name="department" required> <br><br> </div>
+                                    <div class="col-6 row">
+                                        <div class="col-4">소속:</div>
+                                        <div class="col-8"><input type="text" id="department" name="department" required> <br><br> </div>
                                     </div>
 
-                                    <div class="col-6">
-                                        직영/도급 :
-                                        <input type="text" id="partner" name="partner" required> <br><br>
+                                    <div class="col-6 row">
+                                        <div class="col-4">사업형태:</div>
+                                        <div class="col-8"><input type="text" id="partner" name="partner" required> <br><br></div>
                                     </div>
-                                    <div class="col-6">
-                                        작업유형 :
-                                        <input type="text" id="work_type" name="work_type" required> <br><br>
+                                    <div class="col-6 row">
+                                        <div class="col-4">작업유형:</div>
+                                        <div class="col-8"><input type="text" id="work_type" name="work_type" required> <br><br></div>
                                     </div>
-                                    <div class="col-12">
-                                        작업주소 :
-                                        <input type="text" id="address" name="address" required> <br><br>
+                                    <div class="col-12 row">
+                                        <div class="col-2">작업주소:</div>
+                                        <div class="col-10"><input style="width:500px" type="text" id="address" name="address" required> <br><br></div>
                                     </div>
                                     <hr>
                                     <div align="center">
-                                        <input type="submit" value=" 점검결과 등록 ">
+                                        <input type="submit" value=" 점검결과 등록 " onclick="sendData()">
                                     </div><br>
                                 </div>
                             </form>
@@ -286,6 +286,46 @@
 
         }
     </script>
+
+    <script>
+        function sendData() {
+            // 입력된 데이터 가져오기
+            var time = document.getElementById("time").value;
+            var department = document.getElementById("department").value;
+            var partner = document.getElementById("partner").value;
+            var workType = document.getElementById("work_type").value;
+            var address = document.getElementById("address").value;
+
+            // 데이터 객체 생성
+            var data = {
+                date: time,
+                department: department,
+                partners: partner,
+                work_type: workType,
+                work_site: address
+            };
+
+            // AJAX 요청 설정
+            $.ajax({
+                type: "POST",
+                url: "http://221.161.215.143:8080/api/alllist/",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    // 성공적으로 응답 받았을 때 실행할 코드 작성
+                    alert("점검결과 등록이 완료되었습니다.");
+                    // 필요한 경우 페이지 리로드 또는 다른 동작 수행 가능
+                },
+                error: function(error) {
+                    console.error(error);
+                    // 오류 발생 시 실행할 코드 작성
+                    alert("점검결과 등록에 실패하였습니다.");
+                    // 필요한 경우 오류 처리 방법 선택 가능 (예를 들어, 오류 메시지 출력 등)
+                }
+            });
+        }
+    </script>
 <!--
 Copyright (c) 2023 by Aaron Vanston (https://codepen.io/aaronvanston/pen/yNYOXR)
 Copyright (c) 2023 by Anuz Pandey (https://codepen.io/anuzbvbmaniac/pen/RwwdExq)
@@ -301,3 +341,30 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 </body>
 
 </html>
+
+
+
+
+
+//데이터 db에 추가
+<!--from flask import Flask, request-->
+<!--import json-->
+
+<!--app = Flask(__name__)-->
+
+<!--@app.route('/api/alllist/', methods=['POST'])-->
+<!--def receive_data():-->
+<!--data = request.get_json()-->
+
+<!--date = data['date']-->
+<!--department = data['department']-->
+<!--partners = data['partners']-->
+<!--work_type = data['work_type']-->
+<!--work_site = data['work_site']-->
+
+<!--# 이후 데이터를 DB에 저장하는 등의 처리를 수행합니다.-->
+
+<!--return "Data received", 200-->
+
+<!--if __name__ == "__main__":-->
+<!--app.run(debug=True)-->
