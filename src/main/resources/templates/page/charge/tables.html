@@ -43,7 +43,7 @@
                                 <th>직영/도급</th>
                                 <th>작업유형</th>
                                 <th>작업주소</th>
-                                <th>점검유형</th>
+<!--                                <th>점검유형</th>-->
                                 <th>결과버튼</th>
                             </tr>
                             </thead>
@@ -84,16 +84,16 @@
         console.log( "ready!" );
         $('#datatablesSimple').DataTable({
             "ajax": {
-                "url": "http://121.175.159.50:8080/api/safelist/",
+                "url": "http://221.161.215.143:8080/api/alllist/",
                 "dataSrc": ""
             },
             "columns": [
-                { "data": "start_time" },
-                { "data": function (row) { return row.jisa + ' ' + row.jijum + ' ' + row.team; } },
-                { "data": function (row) { return row.team; } },
+                { "data": function (row) { return row.date; } },
+                { "data": function (row) { return row.department; } },
+                { "data": function (row) { return row.partners; } },
                 { "data": function (row) { return row.work_type; } },
                 { "data": function (row) { return row.work_site; } },
-                { "data": function (row) { return row.check_type; } },
+                // { "data": function (row) { return row.check_type; } },
                 {
                     // 결과 버튼 컬럼
                     render: function () {

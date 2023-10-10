@@ -11715,7 +11715,7 @@ body {
 .file-upload {
   background: #fff;
   border-top: 50px solid #212529;
-  width: 450px;
+  width: 550px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -11916,6 +11916,7 @@ body {
   position: relative;
   background: #fff;
   border-top: 50px solid #212529;
+  width: 750px
 }
 
 .list h2 {

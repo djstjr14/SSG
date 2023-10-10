@@ -18,8 +18,9 @@
     <div id="layoutSidenav_content" class="d-flex justify-content-center w-80 h-100" >
 
 
-            <div class="row align-self-center d-flex align-items-stretch">
-                <div class="col-6 align-self-center p-1 me-auto align-self-stretch">
+            <div class="row align-self-center d-flex align-items-stretch w-100">
+
+                <div class="col-6 align-self-center p-1 align-self-stretch">
 
                     <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
                     <div class="file-upload">
@@ -50,8 +51,9 @@
                     </div>
                 </div>
 
-                <div class="col-auto align-self-center p-1 align-self-stretch">
+                <div class="col-6 align-self-center p-1 align-self-stretch">
                     <div class="list">
+
                         <h2>안전점검 체크리스트</h2>
                         <form action="">
                             <label >
@@ -73,6 +75,44 @@
                             </label>
 
                         </form>
+
+                        <form>
+<!--                            <h2>신청서</h2>-->
+
+                            <hr>
+                            <form action="form_membership02.jsp" name="person_info" method="get">
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        작업시간 :
+                                        <div class="col-6"><input type="text" id="time" name="time" required> <br><br> </div>
+                                    </div>
+                                    <div class="col-6">
+                                        소속:
+                                        <div class="col-6"><input type="text" id="department" name="department" required> <br><br> </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        직영/도급 :
+                                        <input type="text" id="partner" name="partner" required> <br><br>
+                                    </div>
+                                    <div class="col-6">
+                                        작업유형 :
+                                        <input type="text" id="work_type" name="work_type" required> <br><br>
+                                    </div>
+                                    <div class="col-12">
+                                        작업주소 :
+                                        <input type="text" id="address" name="address" required> <br><br>
+                                    </div>
+                                    <hr>
+                                    <div align="center">
+                                        <input type="submit" value=" 점검결과 등록 ">
+                                    </div><br>
+                                </div>
+                            </form>
+                        </form>
+
+
                     </div>
                 </div>
             </div>
