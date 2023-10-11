@@ -85,14 +85,17 @@
 
                                 <div class="row">
                                     <div class="col-6 row">
-                                        <div class="col-4">작업시간:</div>
-                                        <div class="col-8"><input type="text" id="time" name="time" required> <br><br> </div>
+                                        <div class="col-4">시작시간:</div>
+                                        <div class="col-8"><input type="text" id="start_time" name="start_time" required> <br><br> </div>
+                                    </div>
+                                    <div class="col-6 row">
+                                        <div class="col-4">종료시간:</div>
+                                        <div class="col-8"><input type="text" id="finish_time" name="finish_time" required> <br><br> </div>
                                     </div>
                                     <div class="col-6 row">
                                         <div class="col-4">소속:</div>
                                         <div class="col-8"><input type="text" id="department" name="department" required> <br><br> </div>
                                     </div>
-
                                     <div class="col-6 row">
                                         <div class="col-4">사업형태:</div>
                                         <div class="col-8"><input type="text" id="partner" name="partner" required> <br><br></div>
@@ -291,7 +294,8 @@
     <script>
         function sendData() {
             // 입력된 데이터 가져오기
-            var time = document.getElementById("time").value;
+            var start_time = document.getElementById("start_time").value;
+            var finish_time = document.getElementById("finish_time").value;
             var department = document.getElementById("department").value;
             var partner = document.getElementById("partner").value;
             var workType = document.getElementById("work_type").value;
@@ -313,14 +317,15 @@
                 // ai_result1: ai_result1,
                 // ai_result2: ai_result2,
                 // ai_result3: ai_result3
-                start_time: time,
-                email: department,
-                name: partner,
+                start_time: start_time,
+                finish_time: finish_time,
+                department: department,
+                partners: partner,
                 work_type: workType,
                 work_site: address,
-                common_q1: ai_result1,
-                common_q2: ai_result2,
-                common_q3: ai_result3
+                ai_result1: ai_result1,
+                ai_result2: ai_result2,
+                ai_result3: ai_result3
             };
             console.log(data);
 

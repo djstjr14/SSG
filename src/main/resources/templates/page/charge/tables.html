@@ -38,7 +38,8 @@
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
-                                <th>작업시간</th>
+                                <th>시작시간</th>
+                                <th>종료시간</th>
                                 <th>소속</th>
                                 <th>직영/도급</th>
                                 <th>작업유형</th>
@@ -88,7 +89,8 @@
                 "dataSrc": ""
             },
             "columns": [
-                { "data": function (row) { return row.date; } },
+                { "data": function (row) { return row.start_time; } },
+                { "data": function (row) { return row.finish_time; } },
                 { "data": function (row) { return row.department; } },
                 { "data": function (row) { return row.partners; } },
                 { "data": function (row) { return row.work_type; } },
