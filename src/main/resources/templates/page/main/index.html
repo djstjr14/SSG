@@ -25,42 +25,38 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Dashboard</h1>
+                <h1 class="mt-4">안전점검 현황</h1>
                 <div class="row">
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card mb-4">
-                            <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                                <canvas id="chart1"></canvas>
-                                <p id="percentage"></p>
-                            </div>
-                            <div class="card-header">
+                    <div class="col-xl-3 col-md-6" >
+                        <div class="card mb-4" >
+                            <div class="card-header w-100">
                                 <i class="fas fa-chart-pie me-1"></i>
                                 안전수칙 준수율
                             </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-xl-3 col-md-6">
-                        <div class="card mb-4">
-                            <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                                <canvas id="chart2"></canvas>
-                                <p id="noncom"></p>
+                            <div id="donutChartContainer" style="width: 70%; height: 70%; margin: 0 auto;">
+                                <canvas id="chart1"></canvas>
+                                <div class="donutText" id="percentage"></div>
                             </div>
+                        </div>
+                        <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-chart-pie me-1"></i>
                                 미준수 내역
                             </div>
+                            <div id="donutChartContainer2" style="width: 70%; height: 70%; margin: 0 auto;">
+                                <canvas id="chart2"></canvas>
+                                <div class="donutText" id="noncom"></div>
+                            </div>
                         </div>
-
                     </div>
 
 
-
-
                     <div class="col-xl-3 col-md-6">
-                        <div class="card-body" style="border: 1px solid #D8D8D8; border-radius: 4px; background-color: #FFFFFF;">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            미준수 순위
+                        </div>
+                        <div class="card-body h-80" style="border: 1px solid #D8D8D8; border-radius: 4px; background-color: #FFFFFF;">
                             <table class="table" id="datatablesSimple">
                                 <thead>
                                 <tr>
@@ -112,17 +108,73 @@
                                 </tbody>
                             </table>
                         </div>
+
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
                         <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            미준수 순위
+                            <i class="fas fa-check me-1"></i>
+                            최근 위반사례 #1
+                        </div>
+                        <img src="image1.jpg" alt="Image" style="max-width: 100%; height: auto;"/>
+                        <div class="card-body" style="border: 1px solid #D8D8D8; border-radius: 4px; background-color: #FFFFFF;">
+                            <table class="table table-bordered">
+                                <colgroup>
+                                    <col style="width: 20%;"> <!-- 첫 번째 열(th) 너비 -->
+                                    <col style="width: 55%;"> <!-- 두 번째 열(td) 너비 -->
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th>날짜:</th>
+                                    <td>2023-08-30(수)</td>
+                                </tr>
+                                <tr>
+                                    <th>사명:</th>
+                                    <td>OSP파트너사</td>
+                                </tr>
+                                <tr>
+                                    <th>불량내역:</th>
+                                    <td>신호수 미배치</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
                     <div class="col-xl-3 col-md-6">
+                        <div class="card-header">
+                            <i class="fas fa-check me-1"></i>
+                            최근 위반사례 #2
+                        </div>
+                        <img src="image2.jpg" alt="Image" style="max-width: 100%; height: auto;"/>
+                        <div class="card-body" style="border: 1px solid #D8D8D8; border-radius: 4px; background-color: #FFFFFF;">
+                            <table class="table table-bordered">
+                                <colgroup>
+                                    <col style="width: 20%;"> <!-- 첫 번째 열(th) 너비 -->
+                                    <col style="width: 55%;"> <!-- 두 번째 열(td) 너비 -->
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th>날짜:</th>
+                                    <td>2023-08-22(화)</td>
+                                </tr>
+                                <tr>
+                                    <th>사명:</th>
+                                    <td>OSP파트너사</td>
+                                </tr>
+                                <tr>
+                                    <th>불량내역:</th>
+                                    <td>
+                                        안전모 미착용<br>
+                                        신호수 미배치<br>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <div class="col-xl-3 col-md-6">
-                    </div>
+
                 </div>
 
                 <!-- 도넛 차트 script -->
@@ -223,5 +275,6 @@
     const analytics = getAnalytics(app);
 
 </script>
+
 </body>
 </html>

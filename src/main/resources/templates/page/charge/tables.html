@@ -85,7 +85,8 @@
         console.log( "ready!" );
         $('#datatablesSimple').DataTable({
             "ajax": {
-                "url": "http://221.161.215.143:8080/api/alllist/",
+                // "url": "http://221.161.215.143:8080/api/alllist/",
+                "url": "http://121.175.159.50:8080/api/alllist/",
                 "dataSrc": ""
             },
             "columns": [
@@ -99,13 +100,21 @@
                 {
                     // 결과 버튼 컬럼
                     render: function () {
-                        return '<button class="btn btn-primary">결과</button>';
+                        return '<button class="btn btn-primary " onclick="openResultWindow()">결과</button>';
                     }
                 }
             ]
         });
     });
+    function openResultWindow() {
+        var url = 'result.html';
+        var windowName = '점검 결과'; // 팝업 창의 이름
+        var windowFeatures = 'width=800,height=600,scrollbars=yes'; // 팝업 창의 속성
 
+        window.open(url, windowName, windowFeatures);
+
+
+    }
 </script>
 </body>
 </html>

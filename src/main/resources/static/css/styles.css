@@ -11996,3 +11996,18 @@ body {
 .hr-with-margin{
   margin-bottom: 40px;
 }
+
+
+#donutChartContainer {
+  position: relative;
+}
+#donutChartContainer2 {
+  position: relative;
+}
+
+.donutText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

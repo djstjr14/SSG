@@ -19,5 +19,12 @@ public class TableController {
         return modelAndView;
     }
 
+    @GetMapping("/result.html")
+    public ModelAndView result() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("page/charge/result");
+        return modelAndView;
+    }
+
 
 }
