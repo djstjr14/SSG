@@ -55,32 +55,33 @@
                     <div class="list">
 
                         <h2>안전점검 체크리스트</h2>
-                        <form action="">
-                            <label >
-                                <input id="check_box1" type="checkbox" disabled >
-                                <i></i>
-                                <span>안전모 착용</span>
-                            </label>
+                        <form>
+                            <row>
+                                <label class="col-4">
+                                    <input id="check_box1" type="checkbox" disabled >
+                                    <i></i>
+                                    <span>안전모 착용</span>
+                                </label>
 
-                            <label >
-                                <input id="check_box2" type="checkbox" disabled>
-                                <i></i>
-                                <span>라바콘 설치</span>
-                            </label>
+                                <label class="col-4">
+                                    <input id="check_box2" type="checkbox" disabled>
+                                    <i></i>
+                                    <span>라바콘 설치</span>
+                                </label>
 
-                            <label >
-                                <input id="check_box3" type="checkbox" disabled>
-                                <i></i>
-                                <span>형광조끼 착용</span>
-                            </label>
-
+                                <label class="col-3">
+                                    <input id="check_box3" type="checkbox" disabled>
+                                    <i></i>
+                                    <span>형광조끼 착용</span>
+                                </label>
+                            </row>
                         </form>
 
                         <form>
 <!--                            <h2>신청서</h2>-->
 
-                            <hr>
-                            <form action="form_membership02.jsp" name="person_info" method="get">
+                            <hr class="hr-with-margin">
+                            <form name="person_info">
 
                                 <div class="row">
                                     <div class="col-6 row">
@@ -106,7 +107,7 @@
                                     </div>
                                     <hr>
                                     <div align="center">
-                                        <input type="submit" value=" 점검결과 등록 " onclick="sendData()">
+                                        <button type="button" onclick="sendData()">점검결과 등록</button>
                                     </div><br>
                                 </div>
                             </form>
@@ -123,7 +124,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js" integrity="sha256-UnTxHm+zKuDPLfufgEMnKGXDl6fEIjtM+n1Q6lL73ok=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
@@ -295,20 +296,38 @@
             var partner = document.getElementById("partner").value;
             var workType = document.getElementById("work_type").value;
             var address = document.getElementById("address").value;
+            var result1 = document.getElementById("check_box1");
+            var ai_result1 = result1.checked ? 0 : 1;
+            var result2 = document.getElementById("check_box2");
+            var ai_result2 = result2.checked ? 0 : 1;
+            var result3 = document.getElementById("check_box3");
+            var ai_result3 = result3.checked ? 0 : 1;
 
             // 데이터 객체 생성
             var data = {
-                date: time,
-                department: department,
-                partners: partner,
+                // time: time,
+                // department: department,
+                // partners: partner,
+                // work_type: workType,
+                // work_site: address,
+                // ai_result1: ai_result1,
+                // ai_result2: ai_result2,
+                // ai_result3: ai_result3
+                start_time: time,
+                email: department,
+                name: partner,
                 work_type: workType,
-                work_site: address
+                work_site: address,
+                common_q1: ai_result1,
+                common_q2: ai_result2,
+                common_q3: ai_result3
             };
+            console.log(data);
 
             // AJAX 요청 설정
             $.ajax({
                 type: "POST",
-                url: "http://221.161.215.143:8080/api/alllist/",
+                url: "http://221.161.215.143:8080/api/aiupload/",
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 success: function(response) {
@@ -344,27 +363,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 
-
-
-//데이터 db에 추가
-<!--from flask import Flask, request-->
-<!--import json-->
-
-<!--app = Flask(__name__)-->
-
-<!--@app.route('/api/alllist/', methods=['POST'])-->
-<!--def receive_data():-->
-<!--data = request.get_json()-->
-
-<!--date = data['date']-->
-<!--department = data['department']-->
-<!--partners = data['partners']-->
-<!--work_type = data['work_type']-->
-<!--work_site = data['work_site']-->
-
-<!--# 이후 데이터를 DB에 저장하는 등의 처리를 수행합니다.-->
-
-<!--return "Data received", 200-->
-
-<!--if __name__ == "__main__":-->
-<!--app.run(debug=True)-->
+ebug=True)-->

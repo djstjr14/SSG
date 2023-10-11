@@ -11924,16 +11924,17 @@ body {
   font-size: 30px;
   padding: 10px 0;
   margin-left: 10px;
+  margin-bottom: 15px;
   display: inline-block;
   border-bottom: 4px solid #000000;
 }
 
 .list label {
   position: relative;
-  display: block;
-  margin: 40px 0;
+  /*display: block;*/
+  margin: 30px 0;
   color: black;
-  font-size: 24px;
+  font-size: 18px;
   cursor: pointer;
 }
 
@@ -11947,7 +11948,7 @@ body {
   display: inline-block;
   width: 25px;
   height: 25px;
-  border: 2px solid black;
+  border: 1px solid black;
   transition: 0.2s;
 }
 
@@ -11992,3 +11993,6 @@ body {
   color: #154e6b;
 }
 
+.hr-with-margin{
+  margin-bottom: 40px;
+}
