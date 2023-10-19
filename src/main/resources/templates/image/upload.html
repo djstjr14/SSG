@@ -86,11 +86,11 @@
                                 <div class="row">
                                     <div class="col-6 row">
                                         <div class="col-4">시작시간:</div>
-                                        <div class="col-8"><input type="text" id="start_time" name="start_time" required> <br><br> </div>
+                                        <div class="col-8"><input style="width:195px" type="datetime-local" id="start_time" name="start_time" required> <br><br> </div>
                                     </div>
                                     <div class="col-6 row">
                                         <div class="col-4">종료시간:</div>
-                                        <div class="col-8"><input type="text" id="finish_time" name="finish_time" required> <br><br> </div>
+                                        <div class="col-8"><input style="width:195px" type="datetime-local" id="finish_time" name="finish_time" required> <br><br> </div>
                                     </div>
                                     <div class="col-6 row">
                                         <div class="col-4">소속:</div>
@@ -98,7 +98,16 @@
                                     </div>
                                     <div class="col-6 row">
                                         <div class="col-4">사업형태:</div>
-                                        <div class="col-8"><input type="text" id="partner" name="partner" required> <br><br></div>
+                                        <div class="col-8">
+                                            <select style="width:195px" id="partner" name="partner">
+                                                <option value="">------ 선택 ------</option>
+                                                <option value="직영">직영</option>
+                                                <option value="도급">도급</option>
+                                                <!-- 추가적인 옵션들 -->
+                                            </select>
+                                        </div>
+
+<!--                                        <div class="col-8"><input type="text" id="partner" name="partner" required> <br><br></div>-->
                                     </div>
                                     <div class="col-6 row">
                                         <div class="col-4">작업유형:</div>
@@ -292,10 +301,23 @@
     </script>
 
     <script>
+        function formatDateTime(dateTime) {
+            const dateObj = new Date(dateTime);
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const hours = String(dateObj.getHours()).padStart(2, '0');
+            const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+            // 24시간 형식으로 변환
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
+        }
         function sendData() {
             // 입력된 데이터 가져오기
             var start_time = document.getElementById("start_time").value;
             var finish_time = document.getElementById("finish_time").value;
+            var formattedStartTime = formatDateTime(start_time);
+            var formattedFinishTime = formatDateTime(finish_time);
             var department = document.getElementById("department").value;
             var partner = document.getElementById("partner").value;
             var workType = document.getElementById("work_type").value;
@@ -317,8 +339,8 @@
                 // ai_result1: ai_result1,
                 // ai_result2: ai_result2,
                 // ai_result3: ai_result3
-                start_time: start_time,
-                finish_time: finish_time,
+                start_time: formattedStartTime,
+                finish_time: formattedFinishTime,
                 department: department,
                 partners: partner,
                 work_type: workType,
@@ -332,8 +354,8 @@
             // AJAX 요청 설정
             $.ajax({
                 type: "POST",
-                // url: "http://221.161.215.143:8080/api/aiupload/",
-                url: "http://121.175.159.50:8080/api/aiupload/",
+                url: "http://221.161.215.143:8080/api/aiupload/",
+                // url: "http://121.175.159.50:8080/api/aiupload/",
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 success: function(response) {

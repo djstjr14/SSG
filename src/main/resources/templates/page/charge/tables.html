@@ -44,21 +44,21 @@
                                 <th>직영/도급</th>
                                 <th>작업유형</th>
                                 <th>작업주소</th>
-<!--                                <th>점검유형</th>-->
+                                <!--                                <th>점검유형</th>-->
                                 <th>결과버튼</th>
                             </tr>
                             </thead>
-<!--                                                                <tfoot>-->
-<!--                                                                    <tr>-->
-<!--                                                                        <th>Position</th>-->
-<!--                                                                        <th>Office</th>-->
-<!--                                                                        <th>Age</th>-->
-<!--                                                                        <th>Start date</th>-->
-<!--                                                                        <th>Salary</th>-->
-<!--                                                                        <th>Salary</th>-->
-<!--&lt;!&ndash;                                                                        <th>Salary</th>&ndash;&gt;-->
-<!--                                                                    </tr>-->
-<!--                                                                </tfoot>-->
+                            <!--                                                                <tfoot>-->
+                            <!--                                                                    <tr>-->
+                            <!--                                                                        <th>Position</th>-->
+                            <!--                                                                        <th>Office</th>-->
+                            <!--                                                                        <th>Age</th>-->
+                            <!--                                                                        <th>Start date</th>-->
+                            <!--                                                                        <th>Salary</th>-->
+                            <!--                                                                        <th>Salary</th>-->
+                            <!--&lt;!&ndash;                                                                        <th>Salary</th>&ndash;&gt;-->
+                            <!--                                                                    </tr>-->
+                            <!--                                                                </tfoot>-->
                             <tbody>
 
                             </tbody>
@@ -83,12 +83,25 @@
 
     $( document ).ready(function() {
         console.log( "ready!" );
-        $('#datatablesSimple').DataTable({
+        var dataTable = $('#datatablesSimple').DataTable({
             "ajax": {
-                // "url": "http://221.161.215.143:8080/api/alllist/",
-                "url": "http://121.175.159.50:8080/api/alllist/",
+                "url": "http://221.161.215.143:8080/api/alllist/",
+                // "url": "http://121.175.159.50:8080/api/alllist/",
                 "dataSrc": ""
             },
+            // "data" : [
+            //     {
+            //         "start_time": "2023-08-29 15:28:43",
+            //         "finish_time": "2023-08-29 15:30:31",
+            //         "department": "울산지사 nan 직명 (대팀)",
+            //         "partners": "직영",
+            //         "work_type" : "통신주",
+            //         "work_site": "울산광역시 북구 화봉동 571-1",
+            //         "ai_result1": "0",
+            //         "ai_result2": "0",
+            //         "ai_result3": "0"
+            //     }
+            // ],
             "columns": [
                 { "data": function (row) { return row.start_time; } },
                 { "data": function (row) { return row.finish_time; } },
@@ -98,22 +111,33 @@
                 { "data": function (row) { return row.work_site; } },
                 // { "data": function (row) { return row.check_type; } },
                 {
-                    // 결과 버튼 컬럼
                     render: function () {
-                        return '<button class="btn btn-primary " onclick="openResultWindow()">결과</button>';
+                        return "<button class='btn btn-primary resultBtn'>결과</button>";
                     }
                 }
-            ]
+            ],
+        });
+
+        $(document).on('click', '.resultBtn', function() {
+            var button = $(this);
+            var $tr = button.closest('tr');
+            var dataTableRow = dataTable.row($tr[0]);
+            var rowData = dataTableRow.data();
+
+            openResultWindow(rowData);
         });
     });
-    function openResultWindow() {
+
+
+    function openResultWindow(data) {
         var url = 'result.html';
         var windowName = '점검 결과'; // 팝업 창의 이름
         var windowFeatures = 'width=800,height=600,scrollbars=yes'; // 팝업 창의 속성
 
-        window.open(url, windowName, windowFeatures);
-
-
+        var popup = window.open(url, windowName, windowFeatures);
+        setTimeout(function() {
+            popup.postMessage(data, "*");
+        }, 500);
     }
 </script>
 </body>

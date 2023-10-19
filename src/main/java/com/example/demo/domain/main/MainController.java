@@ -76,4 +76,22 @@ public class MainController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/44.jpg")
+    public ResponseEntity<byte[]> getImage3() {
+        ClassPathResource imageResource = new ClassPathResource("templates/page/main/44.jpg");
+
+        try {
+            if (imageResource.getFile().exists()) {
+                byte[] imageBytes = Files.readAllBytes(imageResource.getFile().toPath());
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(imageBytes);
+            }
+        } catch (IOException e) {
+            // 예외 처리
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }
