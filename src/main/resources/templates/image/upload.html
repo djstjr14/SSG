@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,10 @@
     <meta name="author" content="" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script defer src="/__/firebase/8.6.5/firebase-app.js"></script>
+    <script defer src="/__/firebase/8.6.5/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/8.6.5/firebase-storage.js"></script>
+
 </head>
 <body class="sb-nav-fixed">
     <th:block th:replace="fragments/header :: headerFragment"></th:block>
@@ -136,6 +141,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.x.x.min.js"></script>-->
 <script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js" integrity="sha256-UnTxHm+zKuDPLfufgEMnKGXDl6fEIjtM+n1Q6lL73ok=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
@@ -300,6 +306,10 @@
         }
     </script>
 
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+
     <script>
         function formatDateTime(dateTime) {
             const dateObj = new Date(dateTime);
@@ -352,25 +362,58 @@
             console.log(data);
 
             // AJAX 요청 설정
-            $.ajax({
-                type: "POST",
-                url: "http://221.161.215.143:8080/api/aiupload/",
-                // url: "http://121.175.159.50:8080/api/aiupload/",
-                data: JSON.stringify(data),
-                contentType: "application/json",
-                success: function(response) {
-                    console.log(response);
-                    // 성공적으로 응답 받았을 때 실행할 코드 작성
-                    alert("점검결과 등록이 완료되었습니다.");
+            // $.ajax({
+            //     type: "POST",
+            //     url: "http://221.161.215.143:8080/api/aiupload/",
+            //     // url: "http://121.175.159.50:8080/api/aiupload/",
+            //     data: JSON.stringify(data),
+            //     contentType: "application/json",
+            //     success: function(response) {
+            //         console.log(response);
+            //         // 성공적으로 응답 받았을 때 실행할 코드 작성
+            //         alert("점검결과 등록이 완료되었습니다.");
+            //         // 필요한 경우 페이지 리로드 또는 다른 동작 수행 가능
+            //     },
+            //     error: function(error) {
+            //         console.error(error);
+            //         // 오류 발생 시 실행할 코드 작성
+            //         alert("점검결과 등록에 실패하였습니다.");
+            //         // 필요한 경우 오류 처리 방법 선택 가능 (예를 들어, 오류 메시지 출력 등)
+            //     }
+            // });
+
+
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+                apiKey: "AIzaSyBEZ0He9BbEXYyR5YP1z7KLAwboxOQHwOs",
+                authDomain: "ai300-ssg.firebaseapp.com",
+                projectId: "ai300-ssg",
+                storageBucket: "ai300-ssg.appspot.com",
+                messagingSenderId: "563079026653",
+                appId: "1:563079026653:web:f15a888c3a9e8db5030834",
+                measurementId: "G-W11R23KQN8"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            // Firestore 컬렉션과 문서 참조 생성
+            const firestoreDB = firebase.firestore();
+            const collectionRef = firestoreDB.collection('checklist');
+
+            // 데이터 추가하기
+            collectionRef.add(data)
+                .then(function(docRef) {
+                    console.log("Document written with ID: ", docRef.id);
+                    alert("데이터가 성공적으로 Firestore에 추가되었습니다.");
                     // 필요한 경우 페이지 리로드 또는 다른 동작 수행 가능
-                },
-                error: function(error) {
-                    console.error(error);
-                    // 오류 발생 시 실행할 코드 작성
-                    alert("점검결과 등록에 실패하였습니다.");
+                })
+                .catch(function(error) {
+                    console.error("Error adding document: ", error);
+                    alert("Firestore에 데이터 추가 중 오류가 발생했습니다.");
                     // 필요한 경우 오류 처리 방법 선택 가능 (예를 들어, 오류 메시지 출력 등)
-                }
-            });
+                });
         }
     </script>
 <!--
@@ -389,6 +432,3 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 </html>
 
-
-
-ebug=True)-->
